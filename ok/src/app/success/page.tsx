@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 
@@ -54,7 +53,7 @@ export default function SuccessPage() {
                         transition={{ delay: 0.6 }}
                         className="mt-2 text-center text-sm text-gray-600"
                     >
-                        شكراً لتسجيلك مع متطوعي وزارة الشباب والرياضة YLY, استني رسالتنا😉
+                        شكراً لتسجيلك مع متطوعي وزارة الشباب والرياضة YLY، استنّى رسالتنا 😉
                     </motion.p>
 
                     <motion.div
@@ -81,11 +80,11 @@ export default function SuccessPage() {
                                     clipRule="evenodd"
                                 />
                             </svg>
-                            استنانا على صفحة الفيسبوك
+                            استنّانا على صفحة الفيسبوك
                         </a>
                     </motion.div>
                 </div>
             </motion.div>
         </div>
     );
-} 
+}
