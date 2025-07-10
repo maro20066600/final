@@ -50,6 +50,7 @@ const GOVERNORATES = [
 export default function ContactForm() {
     const router = useRouter();
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [formError, setFormError] = useState('');
 
     const [formData, setFormData] = useState<Omit<VolunteerFormData, "timestamp">>({
         fullNameArabic: '',
@@ -66,19 +67,42 @@ export default function ContactForm() {
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: value
-        }));
+        const { name, value, type } = e.target;
+        if (type === 'checkbox') {
+            const target = e.target as HTMLInputElement;
+            setFormData(prev => ({
+                ...prev,
+                [name]: target.checked
+            }));
+        } else {
+            setFormData(prev => ({
+                ...prev,
+                [name]: value
+            }));
+        }
+        // Clear error when user makes changes
+        setFormError('');
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (isSubmitting) return;
 
+        // التحقق من اختيار خيار التطوع السابق
+        if (!formData.hasVolunteered) {
+            setFormError('من فضلك اختر ما إذا كنت قد تطوعت من قبل أم لا');
+            return;
+        }
+
+        // التحقق من إدخال خبرة التطوع إذا كان الاختيار "نعم"
+        if (formData.hasVolunteered === "نعم" && !formData.volunteerDate.trim()) {
+            setFormError('من فضلك اكتب عن خبرتك في التطوع');
+            return;
+        }
+
         try {
             setIsSubmitting(true);
+            setFormError('');
 
             // إضافة الطابع الزمني
             const timestamp = new Date().toISOString();
@@ -98,7 +122,7 @@ export default function ContactForm() {
             router.push('/success');
         } catch (error) {
             console.error('Error submitting form:', error);
-            alert('حدث خطأ أثناء إرسال النموذج. يرجى المحاولة مرة أخرى.');
+            setFormError('حدث خطأ أثناء إرسال النموذج. يرجى المحاولة مرة أخرى.');
         } finally {
             setIsSubmitting(false);
         }
@@ -111,6 +135,13 @@ export default function ContactForm() {
                 <form onSubmit={handleSubmit} className="space-y-8">
                     <h2 className="text-3xl font-bold text-center mb-10 text-gray-800">استمارة التسجيل</h2>
                     
+                    {/* عرض رسالة الخطأ إذا وجدت */}
+                    {formError && (
+                        <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg text-right">
+                            {formError}
+                        </div>
+                    )}
+
                     {/* البيانات الشخصية */}
                     <div className="bg-white border border-gray-100 shadow-sm p-6 rounded-lg space-y-4">
                         <h3 className="text-xl font-semibold text-gray-800 mb-6">البيانات الشخصية</h3>
@@ -274,7 +305,7 @@ export default function ContactForm() {
                         <div className="space-y-6">
                             <div>
                                 <label className="block text-right mb-2 font-medium text-gray-700">
-                                    هل سبق لك التطوع من قبل؟
+                                    هل سبق لك التطوع من قبل؟ *
                                 </label>
                                 <div className="flex gap-6 justify-end">
                                     <label className="inline-flex items-center">
@@ -284,6 +315,7 @@ export default function ContactForm() {
                                             value="نعم"
                                             checked={formData.hasVolunteered === "نعم"}
                                             onChange={handleChange}
+                                            required
                                             className="form-radio text-blue-600 bg-[#F8FAFC] border-gray-200"
                                         />
                                         <span className="mr-2 text-gray-700">نعم</span>
@@ -295,6 +327,7 @@ export default function ContactForm() {
                                             value="لا"
                                             checked={formData.hasVolunteered === "لا"}
                                             onChange={handleChange}
+                                            required
                                             className="form-radio text-blue-600 bg-[#F8FAFC] border-gray-200"
                                         />
                                         <span className="mr-2 text-gray-700">لا</span>
@@ -305,16 +338,17 @@ export default function ContactForm() {
                             {formData.hasVolunteered === "نعم" && (
                                 <div>
                                     <label htmlFor="volunteerDate" className="block text-right mb-2 font-medium text-gray-700">
-                                        تاريخ التطوع السابق:
+                                        اكتب عن خبرتك في التطوع: *
                                     </label>
-                                    <input
-                                        type="text"
+                                    <textarea
                                         id="volunteerDate"
                                         name="volunteerDate"
                                         value={formData.volunteerDate}
                                         onChange={handleChange}
-                                        className="form-input w-full p-3 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-[#F8FAFC] text-gray-800 border-gray-200 placeholder-gray-400"
-                                        placeholder="متى كان آخر تطوع؟"
+                                        required
+                                        className="form-textarea w-full p-3 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-[#F8FAFC] text-gray-800 border-gray-200 placeholder-gray-400 resize-none"
+                                        placeholder="اكتب عن تجربتك في العمل التطوعي، مثل: المكان، المهام التي قمت بها، المدة، المهارات التي اكتسبتها"
+                                        rows={4}
                                     />
                                 </div>
                             )}
