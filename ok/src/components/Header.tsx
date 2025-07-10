@@ -12,7 +12,7 @@ export default function Header() {
         >
             <div className="relative">
                 <Image
-                    src="/images/PHOTO-2025-07-10-01-09-12.jpg"
+                    src="/images/form.jpg"
                     alt="وزارة الشباب والرياضة - YLY"
                     width={1920}
                     height={1080}
