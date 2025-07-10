@@ -17,7 +17,6 @@ function doPost(e) {
     const rowData = [
       timestamp,
       data.fullNameArabic,
-      data.fullNameEnglish,
       data.phone,
       data.email,
       data.governorate,
@@ -57,8 +56,7 @@ function setupSheet() {
   if (sheet.getLastRow() === 0) {
     const headers = [
       'التاريخ والوقت',
-      'الاسم رباعي بالعربية',
-      'الاسم رباعي بالإنجليزية',
+      'الاسم رباعي',
       'رقم الموبايل',
       'البريد الإلكتروني',
       'المحافظة',
