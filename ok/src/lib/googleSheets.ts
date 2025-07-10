@@ -2,12 +2,13 @@
 
 // 🔁 ضع هنا رابط Google Apps Script الخاص بك بعد النشر (Publish > Deploy > Web App)
 const GOOGLE_SHEETS_URL =
-  'https://script.google.com/macros/s/AKfycbwb0V4pbGRpkFqyzZ_fzO1fCCUi7DFzr2sa8Tz39gdzSMTLYq4519qHY-ga__HDPHJ0/exec';
+  'https://script.google.com/macros/s/AKfycbx1Myn25ZvT5_ZyI8ab4bfqgBDT5E1Zb8YSm-Ic64g7yynQygBVfPkOY79FtV5EfvHE1Q/exec';
 
 // شكل البيانات المتوقع إرساله (يمكنك تعديله حسب النموذج)
 export type VolunteerFormData = {
     timestamp: string;
     fullNameArabic: string;
+    fullNameEnglish: string;
     phone: string;
     email: string;
     governorate: string;
