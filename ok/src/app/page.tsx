@@ -11,8 +11,8 @@ export default function HomePage() {
             <div className="flex justify-between items-center px-0.5 py-2 mb-4">
                 <div className="w-[75px]">
                     <Image
-                        src="/images/LOGO L/Blue_YLY.png"
-                        alt="YLY Logo"
+                        src="/images/logo R/Blue_M.png"
+                        alt="M Logo"
                         width={75}
                         height={75}
                         className="h-auto"
@@ -28,8 +28,8 @@ export default function HomePage() {
                 </div>
                 <div className="w-[75px]">
                     <Image
-                        src="/images/logo R/Blue_M.png"
-                        alt="M Logo"
+                        src="/images/LOGO L/Blue_YLY.png"
+                        alt="YLY Logo"
                         width={75}
                         height={75}
                         className="h-auto"
