@@ -313,7 +313,7 @@ export default function ContactForm() {
 
                             <div>
                                 <label htmlFor="committee" className="block text-right mb-2 font-medium text-gray-700">
-                                    اللجنة المرغوبة:
+                                    اللجنة المختارة: *
                                 </label>
                                 <select
                                     id="committee"
@@ -321,11 +321,13 @@ export default function ContactForm() {
                                     value={formData.committee}
                                     onChange={handleChange}
                                     required
-                                    className="form-input w-full p-3 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-[#F8FAFC] text-gray-800 border-gray-200"
+                                    className="form-select w-full p-3 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-[#F8FAFC] text-gray-800 border-gray-200"
                                 >
                                     <option value="">اختر اللجنة</option>
                                     {COMMITTEES.map((committee) => (
-                                        <option key={committee} value={committee}>{committee}</option>
+                                        <option key={committee} value={committee}>
+                                            {committee}
+                                        </option>
                                     ))}
                                 </select>
                             </div>
