@@ -7,6 +7,7 @@ import { sendToGoogleSheets } from '@/lib/googleSheets';
 import type { VolunteerFormData } from '@/lib/googleSheets';
 import { useRouter } from 'next/navigation';
 import Header from './Header';
+import MyRecaptcha from './MyRecaptcha';
 
 // تعريف اللجان المتاحة
 const COMMITTEES = [
@@ -51,6 +52,7 @@ export default function ContactForm() {
     const router = useRouter();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [formError, setFormError] = useState('');
+    const [captchaToken, setCaptchaToken] = useState('');
 
     const [formData, setFormData] = useState<Omit<VolunteerFormData, "timestamp">>({
         fullNameArabic: '',
@@ -95,6 +97,12 @@ export default function ContactForm() {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (isSubmitting) return;
+
+        // التحقق من الكابتشا
+        if (!captchaToken) {
+            setFormError('من فضلك أكّد أنك لست روبوتًا');
+            return;
+        }
 
         // التحقق من صحة رقم الموبايل
         if (!/^01[0125][0-9]{8}$/.test(formData.phone)) {
@@ -419,6 +427,11 @@ export default function ContactForm() {
                                 </span>
                             </label>
                         </div>
+                    </div>
+
+                    {/* كابتشا Google */}
+                    <div className="mt-8">
+                        <MyRecaptcha onVerify={(token) => setCaptchaToken(token)} />
                     </div>
 
                     <button
