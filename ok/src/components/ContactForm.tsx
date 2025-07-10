@@ -54,6 +54,7 @@ export default function ContactForm() {
 
     const [formData, setFormData] = useState<Omit<VolunteerFormData, "timestamp">>({
         fullNameArabic: '',
+        fullNameEnglish: '',
         phone: '',
         email: '',
         governorate: '',
@@ -189,6 +190,23 @@ export default function ContactForm() {
                                     required
                                     className="form-input w-full p-3 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-[#F8FAFC] text-gray-800 border-gray-200 placeholder-gray-400"
                                     placeholder="الاسم رباعي باللغة العربية"
+                                />
+                            </div>
+
+                            <div>
+                                <label htmlFor="fullNameEnglish" className="block text-right mb-2 font-medium text-gray-700">
+                                    الاسم رباعي باللغة الإنجليزية:
+                                </label>
+                                <input
+                                    type="text"
+                                    id="fullNameEnglish"
+                                    name="fullNameEnglish"
+                                    value={formData.fullNameEnglish}
+                                    onChange={handleChange}
+                                    required
+                                    className="form-input w-full p-3 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-[#F8FAFC] text-gray-800 border-gray-200 placeholder-gray-400"
+                                    placeholder="Full Name in English"
+                                    dir="ltr"
                                 />
                             </div>
 
