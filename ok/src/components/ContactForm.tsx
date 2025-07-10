@@ -332,9 +332,9 @@ export default function ContactForm() {
                         </div>
                     </div>
 
-                    {/* خبرة التطوع */}
+                    {/* الأنشطة التطوعية */}
                     <div className="bg-white border border-gray-100 shadow-sm p-6 rounded-lg space-y-4">
-                        <h3 className="text-xl font-semibold text-gray-800 mb-6">خبرة التطوع</h3>
+                        <h3 className="text-xl font-semibold text-gray-800 mb-6">الأنشطة التطوعية</h3>
                         
                         <div className="space-y-6">
                             <div>
@@ -372,7 +372,7 @@ export default function ContactForm() {
                             {formData.hasVolunteered === "نعم" && (
                                 <div>
                                     <label htmlFor="volunteer" className="block text-right mb-2 font-medium text-gray-700">
-                                        اكتب عن خبرتك في التطوع: *
+                                        اذكر الأنشطة التطوعية التي شاركت فيها: *
                                     </label>
                                     <textarea
                                         id="volunteer"
@@ -381,7 +381,7 @@ export default function ContactForm() {
                                         onChange={handleChange}
                                         required
                                         className="form-textarea w-full p-3 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-[#F8FAFC] text-gray-800 border-gray-200 placeholder-gray-400 resize-none"
-                                        placeholder="اكتب عن تجربتك في العمل التطوعي، مثل: المكان، المهام التي قمت بها، المدة، المهارات التي اكتسبتها"
+                                        placeholder="اذكر الأنشطة التطوعية التي شاركت فيها، مثل: المبادرات، الفعاليات، الحملات، المؤتمرات"
                                         rows={4}
                                     />
                                 </div>
