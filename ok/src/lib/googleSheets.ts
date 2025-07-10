@@ -16,7 +16,7 @@ export type VolunteerFormData = {
     year: string;
     committee: string;
     hasVolunteered: string;
-    volunteerDate?: string;
+    volunteer: string;
     acceptTerms: boolean;
 };
 
