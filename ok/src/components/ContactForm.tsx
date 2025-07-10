@@ -62,7 +62,7 @@ export default function ContactForm() {
         year: '',
         committee: '',
         hasVolunteered: '',
-        volunteerDate: '',
+        volunteer: '',
         acceptTerms: false
     });
 
@@ -95,7 +95,7 @@ export default function ContactForm() {
         }
 
         // التحقق من إدخال خبرة التطوع إذا كان الاختيار "نعم"
-        if (formData.hasVolunteered === "نعم" && !formData.volunteerDate.trim()) {
+        if (formData.hasVolunteered === "نعم" && !formData.volunteer.trim()) {
             setFormError('من فضلك اكتب عن خبرتك في التطوع');
             return;
         }
@@ -337,13 +337,13 @@ export default function ContactForm() {
 
                             {formData.hasVolunteered === "نعم" && (
                                 <div>
-                                    <label htmlFor="volunteerDate" className="block text-right mb-2 font-medium text-gray-700">
+                                    <label htmlFor="volunteer" className="block text-right mb-2 font-medium text-gray-700">
                                         اكتب عن خبرتك في التطوع: *
                                     </label>
                                     <textarea
-                                        id="volunteerDate"
-                                        name="volunteerDate"
-                                        value={formData.volunteerDate}
+                                        id="volunteer"
+                                        name="volunteer"
+                                        value={formData.volunteer}
                                         onChange={handleChange}
                                         required
                                         className="form-textarea w-full p-3 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-[#F8FAFC] text-gray-800 border-gray-200 placeholder-gray-400 resize-none"
