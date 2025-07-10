@@ -68,6 +68,8 @@ export default function ContactForm() {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value, type } = e.target;
+        
+        // Handle checkbox separately
         if (type === 'checkbox') {
             const target = e.target as HTMLInputElement;
             setFormData(prev => ({
@@ -79,14 +81,26 @@ export default function ContactForm() {
                 ...prev,
                 [name]: value
             }));
+
+            // Clear any existing error
+            setFormError('');
+
+            // Validate phone number as user types
+            if (name === 'phone' && value && !/^01[0125][0-9]{0,8}$/.test(value)) {
+                setFormError('رقم الموبايل يجب أن يبدأ بـ 01 ويتكون من 11 رقم');
+            }
         }
-        // Clear error when user makes changes
-        setFormError('');
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (isSubmitting) return;
+
+        // التحقق من صحة رقم الموبايل
+        if (!/^01[0125][0-9]{8}$/.test(formData.phone)) {
+            setFormError('رقم الموبايل غير صحيح. يجب أن يكون 11 رقم ويبدأ بـ 01');
+            return;
+        }
 
         // التحقق من اختيار خيار التطوع السابق
         if (!formData.hasVolunteered) {
@@ -112,11 +126,26 @@ export default function ContactForm() {
             };
 
             // حفظ في Firebase
-            const volunteerRef = ref(database, 'volunteers');
-            await push(volunteerRef, fullFormData);
+            try {
+                const volunteerRef = ref(database, 'volunteers');
+                await push(volunteerRef, fullFormData);
+            } catch (firebaseError) {
+                console.error('Firebase error:', firebaseError);
+                setFormError('حدث خطأ في حفظ البيانات. يرجى المحاولة مرة أخرى.');
+                return;
+            }
 
             // إرسال إلى Google Sheets
-            await sendToGoogleSheets(fullFormData);
+            try {
+                const sheetsResult = await sendToGoogleSheets(fullFormData);
+                if (!sheetsResult) {
+                    throw new Error('Failed to send to Google Sheets');
+                }
+            } catch (sheetsError) {
+                console.error('Google Sheets error:', sheetsError);
+                setFormError('حدث خطأ في إرسال البيانات. يرجى المحاولة مرة أخرى.');
+                return;
+            }
 
             // التوجيه إلى صفحة النجاح
             router.push('/success');
@@ -191,10 +220,15 @@ export default function ContactForm() {
                                     value={formData.phone}
                                     onChange={handleChange}
                                     required
+                                    pattern="^01[0125][0-9]{8}$"
+                                    maxLength={11}
                                     className="form-input w-full p-3 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-[#F8FAFC] text-gray-800 border-gray-200 placeholder-gray-400"
                                     placeholder="01xxxxxxxxx"
                                     dir="ltr"
                                 />
+                                <p className="mt-1 text-xs text-gray-500 text-right">
+                                    يجب أن يبدأ بـ 01 ويتكون من 11 رقم
+                                </p>
                             </div>
 
                             <div>
