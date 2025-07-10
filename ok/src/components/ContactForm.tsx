@@ -1,13 +1,12 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { database } from '@/lib/firebase';
 import { ref, push } from 'firebase/database';
 import { sendToGoogleSheets } from '@/lib/googleSheets';
 import type { VolunteerFormData } from '@/lib/googleSheets';
 import { useRouter } from 'next/navigation';
 import Header from './Header';
-import ReCAPTCHA from "react-google-recaptcha";
 
 // تعريف اللجان المتاحة
 const COMMITTEES = [
@@ -48,30 +47,10 @@ const GOVERNORATES = [
     'الوادي الجديد'
 ];
 
-// التحقق من reCAPTCHA على الخادم
-async function verifyRecaptcha(token: string) {
-    try {
-        const response = await fetch('/api/verify-recaptcha', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ token }),
-        });
-
-        const data = await response.json();
-        return data.success;
-    } catch (error) {
-        console.error('reCAPTCHA verification error:', error);
-        return false;
-    }
-}
-
 export default function ContactForm() {
     const router = useRouter();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [formError, setFormError] = useState('');
-    const recaptchaRef = useRef<ReCAPTCHA>(null);
 
     const [formData, setFormData] = useState<Omit<VolunteerFormData, "timestamp">>({
         fullNameArabic: '',
@@ -117,47 +96,27 @@ export default function ContactForm() {
         e.preventDefault();
         if (isSubmitting) return;
 
+        // التحقق من صحة رقم الموبايل
+        if (!/^01[0125][0-9]{8}$/.test(formData.phone)) {
+            setFormError('رقم الموبايل غير صحيح. يجب أن يكون 11 رقم ويبدأ بـ 01');
+            return;
+        }
+
+        // التحقق من اختيار خيار التطوع السابق
+        if (!formData.hasVolunteered) {
+            setFormError('من فضلك اختر ما إذا كنت قد تطوعت من قبل أم لا');
+            return;
+        }
+
+        // التحقق من إدخال خبرة التطوع إذا كان الاختيار "نعم"
+        if (formData.hasVolunteered === "نعم" && !formData.volunteer.trim()) {
+            setFormError('من فضلك اكتب عن خبرتك في التطوع');
+            return;
+        }
+
         try {
             setIsSubmitting(true);
             setFormError('');
-
-            // التحقق من reCAPTCHA
-            const recaptchaValue = recaptchaRef.current?.getValue();
-            if (!recaptchaValue) {
-                setFormError('يرجى التحقق من أنك لست روبوتًا');
-                setIsSubmitting(false);
-                return;
-            }
-
-            // التحقق من صحة reCAPTCHA على الخادم
-            const isRecaptchaValid = await verifyRecaptcha(recaptchaValue);
-            if (!isRecaptchaValid) {
-                setFormError('فشل التحقق من reCAPTCHA. يرجى المحاولة مرة أخرى.');
-                setIsSubmitting(false);
-                recaptchaRef.current?.reset();
-                return;
-            }
-
-            // التحقق من صحة رقم الموبايل
-            if (!/^01[0125][0-9]{8}$/.test(formData.phone)) {
-                setFormError('رقم الموبايل غير صحيح. يجب أن يكون 11 رقم ويبدأ بـ 01');
-                setIsSubmitting(false);
-                return;
-            }
-
-            // التحقق من اختيار خيار التطوع السابق
-            if (!formData.hasVolunteered) {
-                setFormError('من فضلك اختر ما إذا كنت قد تطوعت من قبل أم لا');
-                setIsSubmitting(false);
-                return;
-            }
-
-            // التحقق من إدخال خبرة التطوع إذا كان الاختيار "نعم"
-            if (formData.hasVolunteered === "نعم" && !formData.volunteer.trim()) {
-                setFormError('من فضلك اكتب عن خبرتك في التطوع');
-                setIsSubmitting(false);
-                return;
-            }
 
             // إضافة الطابع الزمني
             const timestamp = new Date().toISOString();
@@ -195,7 +154,6 @@ export default function ContactForm() {
             setFormError('حدث خطأ أثناء إرسال النموذج. يرجى المحاولة مرة أخرى.');
         } finally {
             setIsSubmitting(false);
-            recaptchaRef.current?.reset();
         }
     };
 
@@ -461,24 +419,6 @@ export default function ContactForm() {
                                 </span>
                             </label>
                         </div>
-                    </div>
-
-                    {/* reCAPTCHA */}
-                    <div className="flex flex-col items-center gap-2 mt-4">
-                        <label className="block text-right mb-2 font-medium text-gray-700">
-                            تحقق أنك لست روبوتًا
-                        </label>
-                        <ReCAPTCHA
-                            ref={recaptchaRef}
-                            sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''}
-                            theme="light"
-                            hl="ar"
-                            onChange={(value) => {
-                                if (value) {
-                                    setFormError('');
-                                }
-                            }}
-                        />
                     </div>
 
                     <button
