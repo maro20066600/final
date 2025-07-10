@@ -8,7 +8,6 @@ const GOOGLE_SHEETS_URL =
 export type VolunteerFormData = {
     timestamp: string;
     fullNameArabic: string;
-    fullNameEnglish: string;
     phone: string;
     email: string;
     governorate: string;
