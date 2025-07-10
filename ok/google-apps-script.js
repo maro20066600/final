@@ -16,16 +16,18 @@ function doPost(e) {
     // Prepare row data
     const rowData = [
       timestamp,
-      data.fullName,
-      data.mobile,
+      data.fullNameArabic,
+      data.fullNameEnglish,
+      data.phone,
       data.email,
-      data.college,
-      data.university,
-      data.year,
       data.governorate,
+      data.university,
+      data.faculty,
+      data.year,
       data.committee,
       data.hasVolunteered,
-      data.volunteerHistory
+      data.volunteer,
+      data.acceptTerms ? 'نعم' : 'لا'
     ];
     
     // Add data to sheet
@@ -55,16 +57,18 @@ function setupSheet() {
   if (sheet.getLastRow() === 0) {
     const headers = [
       'التاريخ والوقت',
-      'الاسم الرباعي',
+      'الاسم رباعي بالعربية',
+      'الاسم رباعي بالإنجليزية',
       'رقم الموبايل',
       'البريد الإلكتروني',
-      'الكلية',
-      'الجامعة',
-      'السنة الدراسية',
       'المحافظة',
+      'الجامعة',
+      'الكلية',
+      'السنة الدراسية',
       'اللجنة',
       'هل سبق التطوع',
-      'تاريخ التطوع السابق'
+      'خبرة التطوع',
+      'موافقة على الشروط'
     ];
     
     sheet.appendRow(headers);
