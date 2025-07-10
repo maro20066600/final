@@ -54,7 +54,6 @@ export default function ContactForm() {
 
     const [formData, setFormData] = useState<Omit<VolunteerFormData, "timestamp">>({
         fullNameArabic: '',
-        fullNameEnglish: '',
         phone: '',
         email: '',
         governorate: '',
@@ -179,7 +178,7 @@ export default function ContactForm() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <label htmlFor="fullNameArabic" className="block text-right mb-2 font-medium text-gray-700">
-                                    الاسم رباعي باللغة العربية:
+                                    الاسم رباعي:
                                 </label>
                                 <input
                                     type="text"
@@ -189,24 +188,7 @@ export default function ContactForm() {
                                     onChange={handleChange}
                                     required
                                     className="form-input w-full p-3 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-[#F8FAFC] text-gray-800 border-gray-200 placeholder-gray-400"
-                                    placeholder="الاسم رباعي باللغة العربية"
-                                />
-                            </div>
-
-                            <div>
-                                <label htmlFor="fullNameEnglish" className="block text-right mb-2 font-medium text-gray-700">
-                                    الاسم رباعي باللغة الإنجليزية:
-                                </label>
-                                <input
-                                    type="text"
-                                    id="fullNameEnglish"
-                                    name="fullNameEnglish"
-                                    value={formData.fullNameEnglish}
-                                    onChange={handleChange}
-                                    required
-                                    className="form-input w-full p-3 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-[#F8FAFC] text-gray-800 border-gray-200 placeholder-gray-400"
-                                    placeholder="Full Name in English"
-                                    dir="ltr"
+                                    placeholder="الاسم رباعي"
                                 />
                             </div>
 
@@ -229,7 +211,7 @@ export default function ContactForm() {
 
                             <div>
                                 <label htmlFor="phone" className="block text-right mb-2 font-medium text-gray-700">
-                                    رقم الموبايل:
+                                    رقم الموبايل (واتساب):
                                 </label>
                                 <input
                                     type="tel"
@@ -245,7 +227,7 @@ export default function ContactForm() {
                                     dir="ltr"
                                 />
                                 <p className="mt-1 text-xs text-gray-500 text-right">
-                                    يجب أن يبدأ بـ 01 ويتكون من 11 رقم
+                                    يجب أن يبدأ بـ 01 ويتكون من 11 رقم ويكون واتساب
                                 </p>
                             </div>
 
@@ -414,7 +396,6 @@ export default function ContactForm() {
                         <div className="prose text-gray-600 text-sm">
                             <p>بالتسجيل في هذا النموذج، أنت توافق على ما يلي:</p>
                             <ul className="list-disc mr-6 mt-2 space-y-2">
-                                <li>السماح لوزارة الشباب والرياضة باستخدام بياناتك الشخصية للأغراض التطوعية.</li>
                                 <li>تلقي رسائل وإشعارات عبر البريد الإلكتروني أو الهاتف المحمول بخصوص الأنشطة التطوعية.</li>
                                 <li>الالتزام بقواعد وأنظمة العمل التطوعي في الوزارة.</li>
                                 <li>صحة جميع البيانات المقدمة في النموذج.</li>
