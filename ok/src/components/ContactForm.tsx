@@ -13,7 +13,7 @@ import MyRecaptcha from './MyRecaptcha';
 const COMMITTEES = [
     'Public Relations (PR) - العلاقات العامة',
     'Human Resources (HR) - الموارد البشرية',
-    'Operations (OR) - العمليات',
+    'Operations (OR) - التنظيم',
     'Social Media (SM) - وسائل التواصل الاجتماعي'
 ];
 
