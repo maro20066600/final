@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import CountUp from 'react-countup';
 import Confetti from 'react-confetti';
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 export default function ClosedPage() {
   const [showConfetti, setShowConfetti] = useState(false);
@@ -18,7 +19,44 @@ export default function ClosedPage() {
 
   return (
     <div className="min-h-screen flex flex-col justify-between bg-[#F5F7F8] relative overflow-hidden">
-      <div className="flex-1 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      {/* Header with Logos */}
+      <div className="flex justify-between items-center px-1 py-2 mb-4">
+        <div className="w-[90px] md:w-[120px]">
+          <Image
+            src="/images/logo R/Blue_M.png"
+            alt="M Logo"
+            width={120}
+            height={120}
+            className="h-auto"
+            priority
+          />
+        </div>
+        <div className="flex-1 px-1 md:px-4 text-center">
+          {/* Mobile View */}
+          <h2 className="font-bold md:hidden whitespace-nowrap">
+            <span className="text-sm text-gray-800">متطوعي وزارة الشباب والرياضة</span>
+            <span className="text-blue-500 text-lg mr-1">YLY</span>
+          </h2>
+          {/* Desktop View */}
+          <h2 className="hidden md:block font-bold whitespace-nowrap">
+            <span className="text-3xl lg:text-4xl text-gray-800">متطوعي وزارة الشباب والرياضة</span>
+            <span className="text-blue-500 text-3xl lg:text-4xl mr-3">YLY</span>
+          </h2>
+        </div>
+        <div className="w-[90px] md:w-[120px]">
+          <Image
+            src="/images/LOGO L/Blue_YLY.png"
+            alt="YLY Logo"
+            width={120}
+            height={120}
+            className="h-auto"
+            priority
+          />
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="flex-1 flex items-center justify-center py-8 px-4 sm:px-6 lg:px-8">
         {showConfetti && <Confetti numberOfPieces={400} recycle={false} />}
         
         <motion.div 
@@ -131,7 +169,7 @@ export default function ClosedPage() {
         className="w-full py-8 text-center bg-white/50 backdrop-blur-sm"
       >
         <motion.p 
-          className="text-gray-600 text-xl md:text-2xl lg:text-3xl"
+          className="text-gray-600 text-2xl md:text-2xl lg:text-3xl font-semibold"
           animate={{ 
             y: [-10, 0, -10],
             transition: {
