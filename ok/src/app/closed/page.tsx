@@ -23,7 +23,7 @@ export default function ClosedPage() {
       <div className="flex justify-between items-center px-1 py-2 mb-4">
         <div className="w-[90px] md:w-[120px]">
           <Image
-            src="/images/LOGO L/White_M.png"
+            src="/ok/contact-form/public/images/LOGO L/White_M.png"
             alt="M Logo"
             width={120}
             height={120}
@@ -45,7 +45,7 @@ export default function ClosedPage() {
         </div>
         <div className="w-[90px] md:w-[120px]">
           <Image
-            src="/images/LOGO L/White_YLY.png"
+            src="/ok/contact-form/public/images/LOGO L/White_YLY.png"
             alt="YLY Logo"
             width={120}
             height={120}
